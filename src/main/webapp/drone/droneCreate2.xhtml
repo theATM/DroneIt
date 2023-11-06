@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/template.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{droneCreateView.id}" required="true"/>
+        <f:viewAction action="#{droneCreateView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <article class="typeDetailsArticle">
+            <div class="typeDetailsDiv">
+                <header class="typeDetailsHeader"><h2>Dodaj Nowego Drona</h2></header>
+                <h:form class="createDroneForm">
+                    <span><h:message for="wholeBean"/></span>
+                    <div class="typeDetailsID">
+                        <b>ID: </b>
+                        <h:inputText class="ui-control ui-input" id="ID" value="#{droneCreateModel.droneID}">
+                            <f:validateBean validateGroups="jee.droneit.drone.validator.CreateGroup"/>
+                        </h:inputText>
+
+                        <span><h:message for="ID"/></span>
+                    </div>
+                    <div class="typeDetailsName">
+                        <b>Numer Licencji: </b>
+                        <h:inputText class="ui-control ui-input" id="Licence" value="#{droneCreateModel.licenceNumber}">
+                            <f:validateBean validateGroups="jee.droneit.drone.validator.CreateGroup"/>
+                        </h:inputText>
+                        <span><h:message for="Licence"/></span>
+                    </div>
+                    <div class="typeDetailsBrand">
+                        <b>Data Produkcji: </b>
+                        <h:inputText class="ui-control ui-input" id="Date" value="#{droneCreateModel.productionDate}">
+                            <f:converter converterId="LocalDateConverter"/>
+                            <f:validateBean validateGroups="jee.droneit.drone.validator.CreateGroup"/>
+                        </h:inputText>
+                        <span><h:message for="Date"/></span>
+                    </div>
+                    <div class="typeDetails34232">
+                        <b>Typ Drona: </b>
+                        <h:selectOneMenu id="typeMenu" value="#{droneCreateModel.droneType}"
+                                         layout="pageDirection">
+                            <f:converter converterId="TypeModelConverter"/>
+                            <f:selectItems var="type" value="#{droneCreateView.typeModels}" itemValue="#{type}"
+                                           itemLabel="#{type.name}" itemLabelEscaped="false"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                    <div class="saveButton">
+                        <h:commandButton class="ui-control ui-button" value="Save"
+                                         action="#{droneCreateView.saveAction()}"/>
+                    </div>
+
+                    <div class="cancelButton">
+                        <h:commandButton class="ui-control ui-button" value="Cancel"
+                                         action="#{droneCreateView.cancelAction()}"/>
+                    </div>
+                    <f:validateWholeBean id="wholeBean" validationGroups="jee.droneit.drone.validator.CreateGroup" value="#{droneCreateModel}"/>
+                </h:form>
+            </div>
+        </article>
+    </ui:define>
+</ui:composition>

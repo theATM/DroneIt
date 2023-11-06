@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/template.xhtml">
+
+    <f:metadata>
+        <f:viewAction action="#{dronesFindView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:panelGroup rendered="#{facesContext.externalContext.userPrincipal != null}" layout="block">
+            <article class="droneFindingArticle">
+
+
+                <div class="droneFindListDiv">
+
+                    <header class="droneListHeader"><h2>Lista Dronów</h2></header>
+                    <h:form id="ajaxForm">
+                        <h:commandButton styleClass="ui-button ui-control" value="Find"
+                                         action="#{dronesFindView.findAction()}">
+                        </h:commandButton>
+                        <h:dataTable id="ajaxTable" value="#{dronesFindView.dronesModel.drones}" var="drone" styleClass="data-table">
+                            <h:column>
+                                <f:facet name="header">
+                                    <span>
+                                    ID
+                                    </span>
+                                    <h:inputText  id="ID" value="#{dronesFindView.ID}"/>
+                                </f:facet>
+                                <h:outputText value="#{drone.droneID}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <span>
+                                    Licence
+                                    </span>
+                                    <h:inputText  id="Licence" value="#{dronesFindView.licence}"/>
+                                </f:facet>
+                                <h:outputText value="#{drone.licenceNumber}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <span>
+                                    Production Date
+                                    </span>
+                                    <h:inputText  id="Date" value="#{dronesFindView.prodDate}">
+                                        <f:converter converterId="LocalDateConverter"/>
+                                    </h:inputText>
+                                </f:facet>
+                                <h:outputText value="#{drone.productionDate}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <span>
+                                    Drone Type
+                                    </span>
+                                    <h:inputText  id="Type" value="#{dronesFindView.typeName}"/>
+                                </f:facet>
+                                <h:outputText value="#{drone.droneType.name}"/>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form>
+
+
+
+                </div>
+
+
+
+            </article>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

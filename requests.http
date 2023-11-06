@@ -1,0 +1,382 @@
+### FROM Lab 5:
+
+#Users:
+//Bashi auth
+//admin :  Authorization: Basic YWRtaW46YWRtaW4=   or    YWRtaW46YWRtaW5hZG1pbg==
+//adam :   Authorization: Basic YWRhbTphZGFtMTIzNA==
+//ewa :    Authorization: Basic ZXdhOmV3YTEyMzQ=
+//stefan : Authorization: Basic c3RlZmFuOnN0ZWZhbjEyMzQ=
+//alice : Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+
+## Get All Users
+// @no-cookie-jar
+GET http://localhost:9080/droneit/api/users
+Authorization: Basic YWRtaW46YWRtaW5hZG1pbg==
+
+
+
+###
+// @no-cookie-jar
+GET http://localhost:9080/droneit/api/users
+Authorization: Basic YWRhbTphZGFtMTIzNA==
+
+
+### FROM Lab3:
+
+#Drones:
+
+
+## Get All Drones admin
+// @no-cookie-jar
+GET http://localhost:9080/droneit/api/drones
+Authorization: Basic YWRtaW46YWRtaW5hZG1pbg==
+
+### Get All Drones user adam
+// @no-cookie-jar
+GET http://localhost:9080/droneit/api/drones
+Authorization: Basic YWRhbTphZGFtMTIzNA==
+
+
+###
+## Get All drones from one type
+// @no-cookie-jar
+GET http://localhost:9080/droneit/api/types/2/drones
+Authorization: Basic YWRhbTphZGFtMTIzNA==
+
+###
+## Get one drone
+// @no-cookie-jar
+GET http://localhost:9080/droneit/api/types/2/drones/5
+Authorization: Basic YWRhbTphZGFtMTIzNA==
+
+
+###
+## Create one drone back adam
+// @no-cookie-jar
+POST http://localhost:9080/droneit/api/types/2/drones
+Content-Type: application/json
+Authorization: Basic YWRhbTphZGFtMTIzNA==
+
+{
+  "productionDate": "2021-02-21",
+  "droneID": 1410,
+  "licenceNumber": "GADA"
+}
+
+###
+## Get created drone adam
+// @no-cookie-jar
+GET http://localhost:9080/droneit/api/types/2/drones/1410
+Authorization: Basic YWRhbTphZGFtMTIzNA==
+
+###
+## Get created drone  ewa (wont work)
+// @no-cookie-jar
+GET http://localhost:9080/droneit/api/types/2/drones/1410
+Authorization: Basic ZXdhOmV3YTEyMzQ=
+
+###
+## Get created drone  admin
+// @no-cookie-jar
+GET http://localhost:9080/droneit/api/types/2/drones/1410
+Authorization: Basic YWRtaW46YWRtaW5hZG1pbg==
+
+
+###
+#Update
+// @no-cookie-jar
+PUT http://localhost:9080/droneit/api/types/2/drones/1410
+Content-Type: application/json
+Authorization: Basic YWRhbTphZGFtMTIzNA==
+
+{
+  "productionDate": "2021-02-21",
+  "droneID": 1410,
+  "licenceNumber": "GANDddcALF"
+}
+
+
+###Types:
+// @no-cookie-jar
+## Get All Types admin
+GET http://localhost:9080/droneit/api/types
+Authorization: Basic YWRtaW46YWRtaW5hZG1pbg==
+
+
+###
+// @no-cookie-jar
+# Get one type:  adam
+GET http://localhost:9080/droneit/api/types/7
+Authorization: Basic YWRhbTphZGFtMTIzNA==
+
+
+
+###\
+// @no-cookie-jar
+POST http://localhost:9080/droneit/api/types
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW5hZG1pbg==
+
+{
+  "name": "Policyjny",
+  "typeID": 1525,
+  "brand": "GADA",
+  "manufacturer": "PG"
+}
+
+###
+// @no-cookie-jar
+# Get one type:  adam
+GET http://localhost:9080/droneit/api/types/1525
+Authorization: Basic YWRhbTphZGFtMTIzNA==
+
+
+###
+#Updates
+// @no-cookie-jar
+PUT http://localhost:9080/droneit/api/types/1525
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW5hZG1pbg==
+
+{
+"name": "Dziecięcy",
+"typeID": 1525,
+"brand": "J&J",
+"manufacturer": "PG7"
+}
+
+
+
+###
+###
+#delete one type
+// @no-cookie-jar
+DELETE http://localhost:9080/droneit/api/types/1
+Authorization: Basic YWRtaW46YWRtaW5hZG1pbg==
+
+
+
+###
+## Get one drone from wrong type
+// @no-cookie-jar
+GET http://localhost:9080/droneit/api/types/7/drones/2
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+## Delete one drone
+// @no-cookie-jar
+DELETE http://localhost:9080/droneit/api/types/2/drones/2
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+## Create one drone back
+// @no-cookie-jar
+POST http://localhost:9080/droneit/api/types/2/drones
+Content-Type: application/json
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+{
+  "productionDate": "2021-02-21",
+  "droneID": 1410,
+  "licenceNumber": "GADA"
+}
+
+###
+#Update
+PUT http://localhost:9080/droneit/api/types/2/drones/1410
+Content-Type: application/json
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+{
+  "productionDate": "2021-02-21",
+  "droneID": 1410,
+  "licenceNumber": "GANDALF"
+}
+
+###
+## Get 1410 drone (normally non existant)
+GET http://localhost:9080/droneit/api/types/2/drones/1410
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+## Delete one drone
+DELETE http://localhost:9080/droneit/api/types/2/drones/1410
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+
+
+###
+##Types:
+
+## Get All Types
+GET http://localhost:9080/droneit/api/types
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+
+###
+
+
+###
+
+# Get one type:
+GET http://localhost:9080/droneit/api/types/7
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+GET http://localhost:9080/droneit/api/types/1
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+GET http://localhost:9080/droneit/api/types/2
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+# this one shouldn't pass (if not added manully)
+GET http://localhost:9080/droneit/api/types/1410
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+# Add new Type:
+
+
+POST http://localhost:9080/droneit/api/types
+Content-Type: application/json
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+{
+  "name": "Policyjny",
+  "typeID": 1410,
+  "brand": "GADA",
+  "manufacturer": "PG"
+}
+
+
+###
+
+#Add existing one - error
+POST http://localhost:9080/droneit/api/types
+Content-Type: application/json
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+{
+  "name": "Nie_Policyjny",
+  "typeID": 7,
+  "brand": "GADAL",
+  "manufacturer": "PG13"
+}
+
+###
+
+#Updates
+PUT http://localhost:9080/droneit/api/types/1
+Content-Type: application/json
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+{
+  "name": "Dziecięcy",
+  "typeID": 1,
+  "brand": "J&J",
+  "manufacturer": "PG7"
+}
+
+###
+
+##Adding through PUT (should not work)
+
+PUT http://localhost:9080/droneit/api/types/1525
+Content-Type: application/json
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+{
+  "name": "Historyczny",
+  "typeID": 1525,
+  "brand": "J&J",
+  "manufacturer": "PG7"
+}
+
+
+###
+# see if avaiable
+GET http://localhost:9080/droneit/api/types/1525
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+#delete one type
+DELETE http://localhost:9080/droneit/api/types/1
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+
+###
+#see if type exists
+GET http://localhost:9080/droneit/api/types/1
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+
+POST http://localhost:9080/droneit/api/types
+Content-Type: application/json
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+{
+  "name": "Nieusuwalny",
+  "typeID": 1,
+  "brand": "VhV",
+  "manufacturer": "PG18"
+}
+
+
+
+###FROM laB 1:
+
+
+GET http://localhost:9080/droneit/api/users
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+GET http://localhost:9080/droneit/api/users/1
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+GET http://localhost:9080/droneit/api/types/4
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+GET http://localhost:9080/droneit/api/users/2
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+GET http://localhost:9080/droneit/api/users/3
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+PUT http://localhost:9080/droneit/api/avatars/3
+Content-Type: multipart/form-data; boundary=boundary
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="dog.jpg'
+
+< /home/olek/Projects/JavaEE/Lab1/DroneIt/src/main/resources/avatars/dog.jpg
+--boundary--
+
+###
+
+GET http://localhost:9080/droneit/api/avatars/3
+Authorization: Basic a2V2aW46dXNlcnVzZXI=
+
+###
+
+
+DELETE http://localhost:9080/droneit/api/avatars/3
+Authorization: Basic a2V2aW46dXNlcnVzZXI=

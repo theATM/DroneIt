@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/template.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{typeDetailsView.id}" required="true"/>
+        <f:viewParam name="id" value="#{dronesWithTypeView.droneTypeID}" required="true"/>
+        <f:viewAction action="#{typeDetailsView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <h:panelGroup rendered="#{facesContext.externalContext.userPrincipal != null}" layout="block">
+        <article class="typeDetailsArticle">
+            <div class="typeDetailsDiv">
+                <header class="typeDetailsHeader"><h2>Oto szczegóły wybranego typu drona</h2></header>
+                <div class="typeDetailsID">
+                    <b>ID: </b>
+                    <h:outputText value="#{typeDetailsView.typeModel.typeID}"/>
+                </div>
+                <div class="typeDetailsName">
+                    <b>Nazwa: </b>
+                    <h:outputText value="#{typeDetailsView.typeModel.name}"/>
+                </div>
+                <div class="typeDetailsBrand">
+                    <b>Marka: </b>
+                    <h:outputText value="#{typeDetailsView.typeModel.getBrand()}"/>
+                </div>
+                <div class="typeDetailsManufacturer">
+                    <b>Producent: </b>
+                    <h:outputText value="#{typeDetailsView.typeModel.getManufacturer()}"/>
+                </div>
+            </div>
+        </article>
+        <article class="droneListArticle">
+            <div class="droneListDiv">
+                <header class="droneListHeader"><h2>A to wszystkie drony tego typu</h2></header>
+                <h:form id="ajaxForm">
+                <h:dataTable id="ajaxTable" value="#{dronesWithTypeView.dronesModel.drones}" var="drone" styleClass="data-table">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{drone.droneID}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Numer Licencji</f:facet>
+                        <h:outputText value="#{drone.licenceNumber}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Szczegóły</f:facet>
+                        <h:link outcome="/drone/droneDetails.xhtml" value="zobacz">
+                            <f:param name="id" value="#{drone.droneID}"/>
+                        </h:link>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Wersja</f:facet>
+                        <h:outputText value="#{drone.version}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Data Utowrzenia</f:facet>
+                        <h:outputText value="#{drone.creationDateTime}">
+                            <f:convertDateTime type="localDateTime" pattern="yyyy.MM.dd HH:mm"/>
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Data Edycji</f:facet>
+                        <h:outputText value="#{drone.lastEditionDateTime}">
+                            <f:convertDateTime type="localDateTime" pattern="yyyy.MM.dd HH:mm"/>
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Edytuj</f:facet>
+                        <h:link outcome="/drone/droneEdit.xhtml" value="edytuj">
+                            <f:param name="id" value="#{drone.droneID}"/>
+                        </h:link>
+                    </h:column>
+                    <h:column>
+                        <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin') }" layout="block">
+                        <f:facet name="header">Usuń</f:facet>
+                        <h:form>
+                            <h:commandButton styleClass="ui-button ui-control" value="Delete"
+                                             action="#{dronesWithTypeView.deleteAction(drone)}">
+                                <f:ajax execute="@this" render=":ajaxForm:ajaxTable"/>
+                            </h:commandButton>
+                        </h:form>
+                        </h:panelGroup>
+                    </h:column>
+                </h:dataTable>
+                </h:form>
+                <div>
+                    <h:link outcome="/drone/droneCreate2.xhtml" value="Zarejestruj Drona"/>
+                </div>
+            </div>
+        </article>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

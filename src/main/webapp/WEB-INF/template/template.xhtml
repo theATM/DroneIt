@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:view>
+        <h:head>
+            <meta charset="UTF-8"/>
+            <meta name="description" content="National Drone User Registry"/>
+            <meta name="keywords" content="NDUR"/>
+            <meta name="author" content="ATM"/>
+            <title>Drone It</title>
+
+            <h:outputStylesheet library="default" name="css/styles.css"/>
+            <h:outputScript library="push" name="js/message.js" target="head"/>
+        </h:head>
+        <h:body>
+
+            <f:websocket channel="broadcastChannel" scope="application" onmessage="receive"/>
+            <f:websocket rendered="#{facesContext.externalContext.userPrincipal != null }" channel="userChannel"
+                         user="#{facesContext.externalContext.userPrincipal.name}" onmessage="receive"/>
+
+
+            <div class="container">
+                <header class="header">
+                    <h:graphicImage library="default" styleClass="orzel" name="/image/orzelBialy.svg" height="100px" width="100px" alt="orzeł"/>
+                    <h:graphicImage library="default" style="float: right" name="/image/drone.svg" height="100px" width="100px" alt="Dron"/>
+                    <h1>DroneIt</h1>
+                    <h2>#{messages['title']}</h2>
+                </header>
+
+                <nav class="navigation-bar">
+                    <ul>
+                        <li><h:link outcome="/home/start.xhtml">#{messages['nav.start']}</h:link></li>
+                        <li><h:link outcome="/types/typeList.xhtml">#{messages['nav.types']}</h:link></li>
+                        <li><h:link outcome="/drone/dronesFind2.xhtml">#{messages['nav.findDrones']}</h:link></li>
+                    </ul>
+                </nav>
+
+                <section class="main-section">
+                    <ui:insert name="content"/>
+                </section>
+
+                <section class="message-section">
+                    <header><h2>Index:</h2></header>
+                    <h:panelGroup rendered="#{facesContext.externalContext.userPrincipal != null}" layout="block">
+                        <h:form id="chatForm">
+                            <h:inputText  value="#{messageView.msg}"/>
+                            <h:inputText  value="#{messageView.target}"/>
+                            <h:commandButton styleClass="ui-button ui-control" value="Send" action="#{messageView.sendAction()}">
+                                <f:ajax execute="@form" render=":chatForm"/>
+                            </h:commandButton>
+                        </h:form>
+                    </h:panelGroup>
+                    <textarea class="ui-control" id="messageContainer" readonly="readonly"/>
+                </section>
+
+                <footer class="footer">
+                    <h:form rendered="#{facesContext.externalContext.userPrincipal != null}">
+                        #{messages['loggedAs']}:
+                        <h:outputText value="#{facesContext.externalContext.userPrincipal.name} "/>
+                        <h:commandButton class="ui-control ui-button" value="#{messages['logout']}"
+                                         action="#{userLogout.logoutAction()}"/>
+                    </h:form>
+
+
+                    <p>#{messages['title']}</p>
+                    <p>#{messages['author']}: Aleksander Madajczak s175867</p>
+                    <h:graphicImage styleClass="language__flag" library="default" name="img/flag.svg" alt="img" />
+                </footer>
+            </div>
+        </h:body>
+    </f:view>
+</html>

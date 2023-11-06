@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/template.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{droneEditView.id}" required="true"/>
+        <f:viewAction action="#{droneEditView.init()}"/>
+    </f:metadata>
+
+
+    <ui:define name="content">
+        <article class="typeDetailsArticle">
+            <div class="typeDetailsDiv">
+                <header class="typeDetailsHeader"><h2>Oto szczegóły edycji wybranego drona</h2></header>
+                <h:form class="editDroneForm">
+                    <div class="typeDetailsID">
+                        <b>ID: </b>
+                        <h:inputText class="ui-control ui-input" id="ID" value="#{droneEditView.droneEditModel.droneID}"/>
+                    </div>
+                    <div class="typeDetailsName">
+                        <b>Numer Licencji: </b>
+                        <h:inputText class="ui-control ui-input" id="Licence" value="#{droneEditView.droneEditModel.licenceNumber}"/>
+                    </div>
+                    <div class="typeDetailsBrand">
+                        <b>Data Produkcji: </b>
+                        <h:inputText class="ui-control ui-input" id="Date" value="#{droneEditView.droneEditModel.productionDate}">
+                            <f:converter converterId="LocalDateConverter"/>
+                        </h:inputText>
+                    </div>
+                    <div class="typeDetails34232">
+                        <b>Typ Drona: </b>
+                        <h:selectOneMenu id="typeMenu" value="#{droneEditView.droneEditModel.droneType}"
+                                         layout="pageDirection">
+                            <f:converter converterId="TypeModelConverter"/>
+                            <f:selectItems var="type" value="#{droneEditView.typeModels}" itemValue="#{type}"
+                                           itemLabel="#{type.name}" itemLabelEscaped="false" />
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="updateButton">
+                        <h:commandButton class="ui-control ui-button" value="Aktualizuj"
+                                         action="#{droneEditView.updateAction()}"/>
+                    </div>
+                    <div class="messages" style="white-space: pre;">
+                        <h:messages escape="false"/>
+                    </div>
+                </h:form>
+            </div>
+        </article>
+    </ui:define>
+</ui:composition>

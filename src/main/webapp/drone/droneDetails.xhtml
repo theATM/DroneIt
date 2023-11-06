@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/template.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{droneDetailsView.id}" required="true"/>
+        <f:viewAction action="#{droneDetailsView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+        <article class="typeDetailsArticle">
+            <div class="typeDetailsDiv">
+                <header class="typeDetailsHeader"><h2>Oto szczegóły wybranego drona</h2></header>
+                <div class="typeDetailsID">
+                    <b>ID: </b>
+                    <h:outputText value="#{droneDetailsView.droneModel.droneID}"/>
+                </div>
+                <div class="typeDetailsName">
+                    <b>Numer Licencji: </b>
+                    <h:outputText value="#{droneDetailsView.droneModel.licenceNumber}"/>
+                </div>
+                <div class="typeDetailsBrand">
+                    <b>Data Produkcji: </b>
+                    <h:outputText value="#{droneDetailsView.droneModel.productionDate}"/>
+                </div>
+                <div class="typeDetailsManufacturer">
+                    <b>Typ: </b>
+                    <h:outputText value="#{droneDetailsView.droneModel.droneType.name}"/>
+                </div>
+            </div>
+        </article>
+    </ui:define>
+</ui:composition>

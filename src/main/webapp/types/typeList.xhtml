@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/WEB-INF/template/template.xhtml">
+
+    <ui:define name="content">
+        <h:panelGroup rendered="#{facesContext.externalContext.userPrincipal != null}" layout="block">
+        <article class="text--justified">
+            <header><h2>Oto wszystkie rodzaje dronów</h2></header>
+            <h:form id="ajaxFormT">
+            <h:dataTable id="ajaxTableT" value="#{typeListView.types.types}" var="type" styleClass="data-table">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    <h:outputText value="#{type.typeID}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Nazwa</f:facet>
+                    <h:outputText value="#{type.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Szczegóły</f:facet>
+                    <h:link outcome="/types/typeDetails.xhtml" value="zobacz">
+                        <f:param name="id" value="#{type.typeID}"/>
+                    </h:link>
+                </h:column>
+                <h:column>
+                    <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin') }" layout="block">
+                    <f:facet name="header">Usuń</f:facet>
+                    <h:form>
+                        <h:commandButton styleClass="ui-button ui-control" value="Usuń" action="#{typeListView.deleteAction(type)}">
+                            <f:ajax execute="@this" render=":ajaxFormT:ajaxTableT"/>
+                        </h:commandButton>
+                    </h:form>
+                    </h:panelGroup>
+                </h:column>
+            </h:dataTable>
+            </h:form>
+        </article>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
